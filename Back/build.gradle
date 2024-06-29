@@ -33,6 +33,9 @@ dependencies {
 
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
+	// Jasypt - yml 파일 내 특정 값을 암호화 해주는 라이브러리
+	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
+
 
 	// mysql
 	runtimeOnly 'com.mysql:mysql-connector-j'

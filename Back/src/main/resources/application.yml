@@ -20,7 +20,9 @@ spring:
     hibernate:
       ddl-auto: update
     defer-datasource-initialization: true
-
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
 jwt:
   issuer: nimo6289@gmail.com # 이슈 발급자
   secretKey: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHa

@@ -19,14 +19,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
 import java.util.Map;
-import java.util.Optional;
 
 import static Money.Saver.FW.response.ResponseBody.successResponse;
 
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-public class UserController {
+public class LoginController {
 
     private final TokenProvider tokenProvider;
     private final UserRepository userRepository;
