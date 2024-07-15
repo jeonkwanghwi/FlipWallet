@@ -7,9 +7,7 @@ import Money.Saver.FW.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -27,13 +25,12 @@ public class SignupController {
     @PostMapping("/signup")
     public ResponseEntity<Object> signUp(@RequestBody ReqSignupDto reqSignupDto) throws IOException {
         User user = userService.signUp(reqSignupDto);
-
-        // 이메일 중복 체크
-        if (userRepository.existsByEmail(reqSignupDto.getEmail())) {
-            throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
-        }
-
         return successResponse(reqSignupDto);
+    }
+
+    @GetMapping("/isEmailDupl/{email}")
+    public ResponseEntity<Integer> isEmailDupl(@PathVariable String email) {
+        return ResponseEntity.ok(userRepository.existsByEmail(email) ? 1 : 0);
     }
 
 }

@@ -34,25 +34,32 @@ public class LoginController {
     private final PasswordEncoder passwordEncoder;
 
 
+    /** 테스트용 */
+    @GetMapping("/login")
+    public ResponseEntity<Object> loginPage() {
+        return ResponseEntity.ok("정상 로그아웃 완료, login 페이지로 Redirect");
+    }
+
     @PostMapping("/login")
     public ResponseEntity<?> signIn(@RequestBody ReqLoginDto reqLoginDto) {
 
         User user = userDetailService.loadUserByUsername(reqLoginDto.getEmail());
 
         /** JWT 생성
-         * 20분짜리로 생성했음
+         * 10분짜리로 생성했음
          */
-        String token = tokenProvider.generateToken(user, Duration.ofMinutes(20));
+        String token = tokenProvider.generateToken(user, Duration.ofMinutes(10));
 
         /** JWT를 accessToken이라는 이름으로 클라이언트에게 반환 */
         return ResponseEntity.ok(Map.of("accessToken", token));
     }
 
+    /** 로그아웃 후 초기 메인화면(로그인 페이지)으로 Redirect */
     @GetMapping("/logout")
     public ResponseEntity<Object> logout(HttpServletRequest request, HttpServletResponse response) {
         new SecurityContextLogoutHandler().logout(request, response,
                 SecurityContextHolder.getContext().getAuthentication());
-        return successResponse(HttpStatus.OK);
+        return ResponseEntity.ok("정상 로그아웃");
     }
 
 }

@@ -1,6 +1,7 @@
 package Money.Saver.FW.config;
 
 import Money.Saver.FW.service.UserDetailService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +14,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
@@ -23,7 +26,6 @@ import static org.springframework.boot.autoconfigure.security.servlet.PathReques
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class WebSecurityConfig {
-
 
     private final UserDetailService userService;
 
@@ -44,16 +46,11 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(new MvcRequestMatcher(introspector, "/login")).permitAll()
                         .requestMatchers(new MvcRequestMatcher(introspector, "/signup")).permitAll()
-                        .anyRequest().authenticated());
-        /** form 로그인 안함 */
-//                .formLogin((formLogin) -> formLogin
-//                        .loginPage("/login")
-//                        .defaultSuccessUrl("/articles"));
-        http
+                        .anyRequest().permitAll()
+                )
                 .logout((logout) -> logout.logoutSuccessUrl("/login")
-                        .invalidateHttpSession(true));
-        http.csrf((csrf) -> csrf.disable());
-
+                        .invalidateHttpSession(true))
+                .csrf((csrf) -> csrf.disable());
         return http.build();
     }
 

@@ -21,26 +21,26 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    private String name;
+    @Column(unique = true)
     private String email;
-    private String nickname;
+    private String birth;
+    @Column(unique = true)
+    private String phoneNumber;
     private String password;
-    private int targetMoney;
-
+    private double targetMoney;
 
     @Builder
-    public User(String email, String nickname, String password, int targetMoney, String auth) {
+    public User(String name, String email, String birth, String phoneNumber, String password, double targetMoney, String auth) {
+        this.name = name;
         this.email = email;
-        this.nickname = nickname;
+        this.birth = birth;
+        this.phoneNumber = phoneNumber;
         this.password = password;
         this.targetMoney = targetMoney;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("user"));
-    }
-
+    /** 이하 코드는 UserDetails 받느라 쓴 것. */
     @Override
     public String getUsername() {
         return email;
@@ -50,6 +50,12 @@ public class User implements UserDetails {
     public String getPassword() {
         return password;
     }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("user"));
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;

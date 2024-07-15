@@ -18,8 +18,10 @@ public class UserService {
     @Transactional
     public User signUp(ReqSignupDto reqSignupDto) {
         return userRepository.save(User.builder()
+                .name(reqSignupDto.getName())
                 .email(reqSignupDto.getEmail())
-                .nickname(reqSignupDto.getNickname())
+                .birth(reqSignupDto.getBirth())
+                .phoneNumber(reqSignupDto.getPhoneNumber())
                 .password(bCryptPasswordEncoder.encode(reqSignupDto.getPassword()))
                 .targetMoney(reqSignupDto.getTargetMoney())
                 .build());
@@ -29,7 +31,6 @@ public class UserService {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("Unexpected user"));
     }
-
 
 
     // UpdateTargetMoney 추가하기
