@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, TextInput, View, Image, Button, NativeSyntheticEvent, TextInputFocusEventData, findNodeHandle, TextInputChangeEventData, TextInputSubmitEditingEventData } from 'react-native';
-
+ 
 
 function SignUpScreen() {
   const [name, setName] = useState("");
